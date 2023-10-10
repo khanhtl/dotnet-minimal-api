@@ -7,6 +7,20 @@ var connectionString = builder.Configuration.GetConnectionString("Pizzas") ?? "D
 builder.Services.AddSqlite<PizzaDb>(connectionString);
 // builder.Services.AddDbContext<PizzaDb>(options => options.UseInMemoryDatabase("items"));
 
+#region CORS
+string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+      builder =>
+      {
+          builder.WithOrigins(
+            "http://localhost", "*");
+      });
+});
+#endregion
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => {
     c.SwaggerDoc("v1",
@@ -17,6 +31,8 @@ builder.Services.AddSwaggerGen(c => {
     });
 });
 var app = builder.Build();
+app.UseCors(MyAllowSpecificOrigins);
+
 app.UseSwagger();
 app.UseSwaggerUI(c => {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Todo API V1");
