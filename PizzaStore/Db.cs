@@ -1,4 +1,4 @@
-namespace PizzaStore.Db;
+namespace PizzaStore.DB;
 
 public record Pizza
 {
@@ -6,7 +6,7 @@ public record Pizza
     public string? Name { get; set; }
 }
 
-public class PizzaDb
+public class PizzaDB
 {
     private static List<Pizza> _pizzas = new List<Pizza>()
    {
